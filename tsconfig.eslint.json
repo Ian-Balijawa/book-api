@@ -1,0 +1,16 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "noEmit": true,
+     "lib": [
+         "es5",
+         "es6",
+         "ES2020"
+      ],
+  },
+  "include": [
+    "src/**/*",
+    ".eslintrc.js",
+    ".prettierrc.js"
+  ]
+}
