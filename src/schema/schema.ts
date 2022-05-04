@@ -13,17 +13,17 @@ import { Book } from '../models/Book'
 
 // dummy data
 // var books = [
-//   { name: 'Name of the wild', genre: 'Fantasy', id: '1', authorId: '1' },
-//   { name: 'The Final Empire', genre: 'Sci-Fi', id: '2', authorId: '2' },
+//   { name: 'Name of the wild', genre: 'Fantasy', id: '1', author: '1' },
+//   { name: 'The Final Empire', genre: 'Sci-Fi', id: '2', author: '2' },
 //   {
 //     name: "Don't mess with the Zohan",
 //     genre: 'Comedy',
 //     id: '3',
-//     authorId: '3'
+//     author: '3'
 //   },
-//   { name: 'The Long Earth', genre: 'Sci-Fi', id: '4', authorId: '1' },
-//   { name: 'Hero of Ages', genre: 'Family', id: '4', authorId: '2' },
-//   { name: 'The Light Fantanstic', genre: 'Sci-Fi', id: '4', authorId: '3' }
+//   { name: 'The Long Earth', genre: 'Sci-Fi', id: '4', author: '1' },
+//   { name: 'Hero of Ages', genre: 'Family', id: '4', author: '2' },
+//   { name: 'The Light Fantanstic', genre: 'Sci-Fi', id: '4', author: '3' }
 // ]
 
 // var authors = [
@@ -73,7 +73,7 @@ const AuthorType = new GraphQLObjectType<Author, Book>({
     books: {
       type: new GraphQLList(BookType),
       resolve: (parent: Author, args: Args) => {
-        return Book.find({ authorId: parent.id })
+        return Book.find({ author: parent.id })
       }
     }
   })
@@ -140,16 +140,23 @@ const Mutation = new GraphQLObjectType({
         genre: {
           type: new GraphQLNonNull(GraphQLString)
         },
-        authorId: { type: GraphQLID }
+        author: { type: GraphQLID }
       },
 
-      resolve: (parent, args: Book) => {
+      resolve: async (parent, args: Book) => {
         const { name, genre, authorId } = args
+
+        const author = await Author.findById(authorId)
+
+        if (!author) {
+          console.error('You must provid a valid authorId')
+          return
+        }
 
         let book = Book.build({
           name,
           genre,
-          authorId
+          author: author!
         })
         return book.save()
       }
