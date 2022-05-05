@@ -11,29 +11,8 @@ import {
 import { Author } from '../models/Author'
 import { Book } from '../models/Book'
 
-// dummy data
-// var books = [
-//   { name: 'Name of the wild', genre: 'Fantasy', id: '1', author: '1' },
-//   { name: 'The Final Empire', genre: 'Sci-Fi', id: '2', author: '2' },
-//   {
-//     name: "Don't mess with the Zohan",
-//     genre: 'Comedy',
-//     id: '3',
-//     author: '3'
-//   },
-//   { name: 'The Long Earth', genre: 'Sci-Fi', id: '4', author: '1' },
-//   { name: 'Hero of Ages', genre: 'Family', id: '4', author: '2' },
-//   { name: 'The Light Fantanstic', genre: 'Sci-Fi', id: '4', author: '3' }
-// ]
-
-// var authors = [
-//   { name: 'Ian Balijawa', age: 23, id: '1' },
-//   { name: 'Patrick Sandersen', age: 33, id: '2' },
-//   { name: 'Harry Maguire', age: 27, id: '3' }
-// ]
-
 interface Args {
-  id: typeof GraphQLID
+	id: typeof GraphQLID;
 }
 
 interface AuthorArgs {
@@ -183,7 +162,7 @@ const Mutation = new GraphQLObjectType({
 					genre,
 					author: author!
 				});
-				return book.save();
+				return book!.save();
 			}
 		}
 	}
